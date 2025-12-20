@@ -1,4 +1,4 @@
 ﻿using LanguageChanger;
 
-var changer = new Changer();
+using var changer = new Changer();
 changer.Launch();

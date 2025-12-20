@@ -21,6 +21,8 @@ public sealed class Changer : IDisposable
     
     private IntPtr _hookIdentifier;
     private ProcessModule _currentModule = null!;
+    
+    private bool _isDisposed;
 
     private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -121,6 +123,13 @@ public sealed class Changer : IDisposable
     
     public void Dispose()
     {
+        if (_isDisposed)
+        {
+            return;
+        }
+        
         _currentModule.Dispose();
+        
+        _isDisposed = true;
     }
 }
