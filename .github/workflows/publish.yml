@@ -26,8 +26,7 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
-         ${{ matrix.target }}
-    - name: Publish ${{ matrix.target }}
+    - name: Publish
       run: >
         dotnet publish ./CapsSwitcher.csproj 
         -c Release 
@@ -37,12 +36,19 @@ jobs:
         -p:IncludeNativeLibrariesForSelfExtract=true
         -o ./publish
 
+    - name: Rename Exe
+      run: |
+        cd ./publish
+        Rename-Item -Path "CapsSwitcher.exe" -NewName "CapsSwitcher-${{ matrix.target }}.exe"
+
     - name: Zip Build
-      run: Compress-Archive -Path ./publish/*.exe -DestinationPath ./CapsSwitcher-${{ github.ref_name }}-${{ matrix.target }}.zip
+      run: Compress-Archive -Path ./publish/CapsSwitcher-${{ matrix.target }}.exe -DestinationPath ./publish/CapsSwitcher-${{ github.ref_name }}-${{ matrix.target }}.zip
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
-        files: ./CapsSwitcher-*.zip
+        files: |
+          ./publish/*.zip
+          ./publish/*.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
