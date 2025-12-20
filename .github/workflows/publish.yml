@@ -19,10 +19,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
 
@@ -45,7 +45,7 @@ jobs:
       run: Compress-Archive -Path ./publish/CapsSwitcher-${{ matrix.target }}.exe -DestinationPath ./publish/CapsSwitcher-${{ github.ref_name }}-${{ matrix.target }}.zip
 
     - name: Upload to Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: |
           ./publish/*.zip
