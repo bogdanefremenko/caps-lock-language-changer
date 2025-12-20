@@ -1,4 +1,6 @@
-﻿using LanguageChanger;
+using LanguageChanger.Hooks;
+using LanguageChanger.Services;
 
-using var changer = new Changer();
-changer.Launch();
+using var hook = new KeyboardHook();
+hook.Install();
+MessageLoop.Run();
