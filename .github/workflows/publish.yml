@@ -10,12 +10,8 @@ permissions:
 
 jobs:
   release:
-    name: Release for ${{ matrix.target }}
+    name: Release (win-x64)
     runs-on: windows-latest
-    
-    strategy:
-      matrix:
-        target: [win-x64, win-x86]
 
     steps:
     - name: Checkout code
@@ -30,19 +26,23 @@ jobs:
       run: >
         dotnet publish ./CapsSwitcher.csproj 
         -c Release 
-        -r ${{ matrix.target }} 
+        -r win-x64 
         --self-contained true 
         -p:PublishSingleFile=true 
         -p:IncludeNativeLibrariesForSelfExtract=true
+        -p:DebugType=None
+        -p:DebugSymbols=false
         -o ./publish
 
-    - name: Rename Exe
+    - name: Package
       run: |
-        cd ./publish
-        Rename-Item -Path "CapsSwitcher.exe" -NewName "CapsSwitcher-${{ matrix.target }}.exe"
+        $exePath = "./publish/CapsSwitcher.exe"
+        $targetName = "./publish/CapsSwitcher-win-x64.exe"
+        $zipName = "./publish/CapsSwitcher-${{ github.ref_name }}-win-x64.zip"
 
-    - name: Zip Build
-      run: Compress-Archive -Path ./publish/CapsSwitcher-${{ matrix.target }}.exe -DestinationPath ./publish/CapsSwitcher-${{ github.ref_name }}-${{ matrix.target }}.zip
+        Move-Item -Path $exePath -Destination $targetName
+
+        Compress-Archive -Path $targetName -DestinationPath $zipName
 
     - name: Upload to Release
       uses: softprops/action-gh-release@v2
