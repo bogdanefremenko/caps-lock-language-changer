@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace LanguageChanger.Native;
+namespace CapsLockLanguageChanger.Native;
 
 [StructLayout(LayoutKind.Sequential)]
 internal struct Message

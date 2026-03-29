@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace LanguageChanger.Native;
+namespace CapsLockLanguageChanger.Native;
 
 internal delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 

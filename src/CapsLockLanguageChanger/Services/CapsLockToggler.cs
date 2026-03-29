@@ -1,6 +1,6 @@
-using LanguageChanger.Native;
+using CapsLockLanguageChanger.Native;
 
-namespace LanguageChanger.Services;
+namespace CapsLockLanguageChanger.Services;
 
 internal static class CapsLockToggler
 {

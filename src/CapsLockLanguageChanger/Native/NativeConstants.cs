@@ -1,4 +1,4 @@
-namespace LanguageChanger.Native;
+namespace CapsLockLanguageChanger.Native;
 
 internal static class NativeConstants
 {
