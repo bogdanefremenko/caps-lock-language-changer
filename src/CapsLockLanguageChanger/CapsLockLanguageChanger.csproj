@@ -10,6 +10,11 @@
         <SelfContained>true</SelfContained>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+        <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\icon.ico" />
+    </ItemGroup>
 
 </Project>
