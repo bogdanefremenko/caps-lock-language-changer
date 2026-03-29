@@ -11,12 +11,12 @@ internal sealed class KeyboardHook : IDisposable
     private long _capsLockPressStartTimeTicks;
 
     private IntPtr _hookHandle;
-    private ProcessModule? _currentModule;
-    private LowLevelKeyboardProc? _hookCallback;
+    private readonly ProcessModule _currentModule;
+    private readonly LowLevelKeyboardProc _hookCallback;
 
     private bool _isDisposed;
 
-    public void Install()
+    public KeyboardHook()
     {
         using var currentProcess = Process.GetCurrentProcess();
         _currentModule = currentProcess.MainModule!;
@@ -27,18 +27,11 @@ internal sealed class KeyboardHook : IDisposable
             _hookCallback,
             NativeMethods.GetModuleHandle(_currentModule.ModuleName),
             0);
-
-        Console.WriteLine("CapsLock Switcher is running...");
-        Console.WriteLine("Press Ctrl+C to exit.");
     }
 
-    public void Uninstall()
+    internal static bool IsShortPress(long durationMs)
     {
-        if (_hookHandle != IntPtr.Zero)
-        {
-            NativeMethods.UnhookWindowsHookEx(_hookHandle);
-            _hookHandle = IntPtr.Zero;
-        }
+        return durationMs < NativeConstants.ShortPressThresholdMs;
     }
 
     private void SetHookEnabled(bool enabled)
@@ -47,8 +40,8 @@ internal sealed class KeyboardHook : IDisposable
         {
             _hookHandle = NativeMethods.SetWindowsHookEx(
                 NativeConstants.HookTypeKeyboardLowLevel,
-                _hookCallback!,
-                NativeMethods.GetModuleHandle(_currentModule!.ModuleName),
+                _hookCallback,
+                NativeMethods.GetModuleHandle(_currentModule.ModuleName),
                 0);
         }
         else
@@ -87,9 +80,9 @@ internal sealed class KeyboardHook : IDisposable
                     {
                         _isCapsLockKeyHeldDown = false;
 
-                        var durationInMilliseconds = (DateTime.UtcNow.Ticks - _capsLockPressStartTimeTicks) / TimeSpan.TicksPerMillisecond;
+                        var durationMs = (DateTime.UtcNow.Ticks - _capsLockPressStartTimeTicks) / TimeSpan.TicksPerMillisecond;
 
-                        if (durationInMilliseconds < NativeConstants.ShortPressThresholdMs)
+                        if (IsShortPress(durationMs))
                         {
                             LanguageSwitcher.Switch();
                         }
@@ -110,13 +103,15 @@ internal sealed class KeyboardHook : IDisposable
     public void Dispose()
     {
         if (_isDisposed)
-        {
             return;
+
+        if (_hookHandle != IntPtr.Zero)
+        {
+            NativeMethods.UnhookWindowsHookEx(_hookHandle);
+            _hookHandle = IntPtr.Zero;
         }
 
-        Uninstall();
-        _currentModule?.Dispose();
-
+        _currentModule.Dispose();
         _isDisposed = true;
     }
 }
