@@ -21,13 +21,4 @@ internal static class NativeMethods
 
     [DllImport("user32.dll")]
     public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-
-    [DllImport("user32.dll")]
-    public static extern bool GetMessage(out Message lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
-
-    [DllImport("user32.dll")]
-    public static extern bool TranslateMessage([In] ref Message lpMsg);
-
-    [DllImport("user32.dll")]
-    public static extern IntPtr DispatchMessage([In] ref Message lpMsg);
 }
