@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="src/CapsLockLanguageChanger/CapsLockLanguageChanger.csproj" />
+  <Project Path="tests/CapsLockLanguageChanger.Tests/CapsLockLanguageChanger.Tests.csproj" />
 </Solution>
