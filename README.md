@@ -11,7 +11,7 @@ Remap CapsLock to switch keyboard languages on Windows.
 
 ## Installation
 
-Download the latest `CapsLockLanguageChanger-win-x64.exe` from [Releases](../../releases) and run it. No installation required — it's a single portable executable.
+Download the latest `CapsLockLanguageChanger-win-x64.exe` from [Releases](../../releases). Move it to a permanent location (e.g. `C:\Program Files\CapsLockLanguageChanger\`) and run it from there. This is important if you plan to use the "Start with Windows" option, as it registers the exe path for auto-start.
 
 The app runs in the system tray. Right-click the tray icon for options:
 
