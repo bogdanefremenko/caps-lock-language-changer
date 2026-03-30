@@ -37,3 +37,6 @@ msbuild.wrn
 
 # Publish output
 publish*/
+
+# Claude Code
+.claude/
