@@ -24,21 +24,17 @@ jobs:
 
     - name: Publish
       run: >
-        dotnet publish ./CapsSwitcher.csproj 
-        -c Release 
-        -r win-x64 
-        --self-contained true 
-        -p:PublishSingleFile=true 
-        -p:IncludeNativeLibrariesForSelfExtract=true
+        dotnet publish ./src/CapsLockLanguageChanger/CapsLockLanguageChanger.csproj
+        -c Release
         -p:DebugType=None
         -p:DebugSymbols=false
         -o ./publish
 
     - name: Package
       run: |
-        $exePath = "./publish/CapsSwitcher.exe"
-        $targetName = "./publish/CapsSwitcher-win-x64.exe"
-        $zipName = "./publish/CapsSwitcher-${{ github.ref_name }}-win-x64.zip"
+        $exePath = "./publish/CapsLockLanguageChanger.exe"
+        $targetName = "./publish/CapsLockLanguageChanger-win-x64.exe"
+        $zipName = "./publish/CapsLockLanguageChanger-${{ github.ref_name }}-win-x64.zip"
 
         Move-Item -Path $exePath -Destination $targetName
 
